@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ETX</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #005580;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #00334d;
+    }
+    form {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    input[type="file"] {
+      margin-right: 10px;
+    }
+    button {
+      background-color: #005580;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00334d;
+    }
+    .output-section {
+      background: #eef;
+      border-left: 4px solid #005580;
+      padding: 10px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      font-family: monospace;
+    }
+    audio {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>ETX</h1>
+  <p style="text-align: center;">(Extract-Transform-eXpress)</p>
+
+  <!-- Document Upload -->
+  <h2>📄 Upload Document (PDF, DOC, DOCX)</h2>
+  <form id="doc-form" enctype="multipart/form-data">
+    <input type="file" name="document" id="document" accept=".pdf,.doc,.docx" required>
+    <button type="submit">Upload Document</button>
+  </form>
+  <div class="output-section" id="doc-output"></div>
+
+  <!-- Image Upload -->
+  <h2>🖼️ Upload Document Image</h2>
+  <form id="image-form" enctype="multipart/form-data">
+    <input type="file" name="image" id="image" accept="image/*" required>
+    <button type="submit">Upload Image</button>
+  </form>
+  <div class="output-section" id="image-output"></div>
+
+  <!-- Audio Upload -->
+  <h2>🎙️ Upload Audio</h2>
+  <form id="audio-form" enctype="multipart/form-data">
+    <input type="file" name="audio" id="audio" accept="audio/*" required>
+    <button type="submit">Upload Audio</button>
+  </form>
+  <div class="output-section" id="audio-output">
+    <h3>Transcription:</h3>
+    <pre id="audio-text"></pre>
+    <h3>Reply Audio:</h3>
+    <audio id="reply-audio" controls style="display:none;"></audio>
+  </div>
+
+  <script>
+    function formatJSON(jsonData) {
+      const jsonString = JSON.stringify(jsonData, null, 2);
+      return jsonString
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    async function handleUpload(formId, inputId, url, outputId, isAudio = false) {
+      document.getElementById(formId).addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const formData = new FormData();
+        const inputFile = document.getElementById(inputId);
+        formData.append(inputId, inputFile.files[0]);
+
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            body: formData
+          });
+          const data = await response.json();
+
+          if (isAudio) {
+            document.getElementById("audio-text").textContent = data.transcription || "(No text)";
+            const audioEl = document.getElementById("reply-audio");
+            if (data.audio_reply) {
+              audioEl.src = data.audio_reply;
+              audioEl.style.display = "block";
+            }
+          } else {
+            document.getElementById(outputId).innerHTML = `<pre>${formatJSON(data)}</pre>`;
+          }
+
+        } catch (error) {
+          document.getElementById(outputId).innerHTML = `<pre>Error: ${error.message}</pre>`;
+        }
+      });
+    }
+
+    handleUpload("doc-form", "document", "/extract_doc", "doc-output");
+    handleUpload("image-form", "image", "/extract_image", "image-output");
+    handleUpload("audio-form", "audio", "/extract_audio", "audio-output", true);
+  </script>
+
+</body>
+</html>

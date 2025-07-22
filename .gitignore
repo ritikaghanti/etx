@@ -1,0 +1,28 @@
+# Python virtual environment
+venv/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+
+# Uploads and output files
+uploads/
+*.wav
+*.json
+*.txt
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Large files
+**/torch/lib/*.dylib
