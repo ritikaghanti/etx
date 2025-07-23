@@ -20,6 +20,7 @@ fsspec==2025.7.0
 future==1.0.0
 git-filter-repo==2.47.0
 gTTS==2.5.4
+gunicorn==23.0.0
 h11==0.16.0
 httpcore==1.0.9
 httpx==0.28.1
