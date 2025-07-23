@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: etx-modular-pipeline
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python app/app.py"
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false  # Set this in Render dashboard
