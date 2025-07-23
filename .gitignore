@@ -15,7 +15,7 @@ __pycache__/
 uploads/
 *.wav
 *.json
-*.txt
+# *.txt
 
 # IDE/editor settings
 .vscode/
