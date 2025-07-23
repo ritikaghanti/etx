@@ -88,5 +88,5 @@ def get_audio_response():
     audio_path = os.path.join(app.config["UPLOAD_FOLDER"], "response.mp3")
     return send_file(audio_path, mimetype="audio/mpeg")
 
-# if __name__ == "__main__":
-#     app.run(debug=True, host="0.0.0.0")
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5050 )
