@@ -5,7 +5,7 @@ A modular, local-first AI pipeline that accepts audio, document, image, and text
 ---
 
 ## Watch it here:
-[![Watch the demo](uploads/homepage.png)](https://youtu.be/KTrsqdnbFrk)
+[![Watch the demo](uploads/hompepage.png)](https://youtu.be/KTrsqdnbFrk)
 
 Inputs used: 
 - [Download Input docx](uploads/Certificate of Distinction - UTA The University of Texas at Arlington &.docx)
@@ -19,7 +19,6 @@ Inputs used:
 - 📸 Image-to-Text using **Tesseract OCR**
 - 🗣️ Text-to-Speech synthesis with **gTTS**
 - 🧱 Modular architecture for easy plug-and-play
-- 🌐 Fully deployed on [Render](https://render.com)
 
 ---
 
